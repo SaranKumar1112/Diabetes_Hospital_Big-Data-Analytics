@@ -1,35 +1,64 @@
 # Diabetes Hospital Big Data Analytics
 
-This repository contains big data analytics projects focused on diabetes hospital data.
+Analysis of the UCI Diabetes 130-US Hospitals dataset (~101,766 patient records) covering hospital stay duration, readmission prediction, and OLAP reporting.
 
 ## Project Structure
 
-- `analytics.ipynb`: Main analytics notebook
-- `DescriptiveAnalysis.ipynb`: Descriptive analysis of the data
-- `DescriptiveAnalysisBDA.ipynb`: Big data analytics descriptive analysis
-- `OLAPReport.py`: OLAP reporting script
-- `SaranOlap 2.py`: Additional OLAP analysis script
-- `test.ipynb`: Testing notebook
+```
+├── notebooks/
+│   ├── 00_data_preparation.ipynb       # Merges discharge_disposition_id into cleaned dataset
+│   ├── 01_exploratory_analysis.ipynb   # Initial EDA — distributions, correlations, box plots
+│   ├── 02_descriptive_analysis.ipynb   # Full pipeline — EDA, regression (MNLogit), logistic classification
+│   └── 03_tas_dataset_analysis.ipynb   # Alternate dataset — Naive Bayes, correlation analysis
+├── dashboard/
+│   ├── olap_report.py                  # Interactive Dash app (port 8053)
+│   └── olap_report_outlined.py         # Dash app variant with bar outlines (port 8054)
+├── data/                               # Place your CSV files here (not committed — see below)
+├── requirements.txt
+└── .gitignore
+```
 
-## Getting Started
+## Setup
 
-1. Clone the repository
-2. Install required dependencies (see individual notebooks/scripts for requirements)
-3. Run the Jupyter notebooks or Python scripts as needed
+```bash
+pip install -r requirements.txt
+```
+
+## Data Files
+
+The CSV data files are not included in this repository (patient data). Place them in the `data/` folder before running:
+
+| File | Used by |
+|---|---|
+| `diabetic_data.csv` | 00, 01 notebooks |
+| `cleaned_diabetic_data_with_Median.csv` | 00 notebook |
+| `updated cleaned_diabetic_data_with_Median.csv` | 02 notebook |
+| `cleaned_diabetic_data_with_Median 1.csv` | Dashboard |
+| `diabetic_data_Tas.csv` | 03 notebook |
+
+Run `00_data_preparation.ipynb` first — it generates `updated cleaned_diabetic_data_with_Median.csv` from the raw files.
+
+## Running the Notebooks
+
+Open Jupyter and run each notebook top-to-bottom in numbered order:
+
+```bash
+jupyter lab
+```
+
+## Running the Dashboard
+
+```bash
+python dashboard/olap_report.py
+# Open http://localhost:8053
+```
+
+To enable the debug mode:
+```bash
+DASH_DEBUG=true python dashboard/olap_report.py
+```
 
 ## Requirements
 
-- Python 3.x
-- Jupyter Notebook
-- Pandas
-- NumPy
-- Matplotlib/Seaborn (for visualizations)
-- Other libraries as specified in the code
-
-## Usage
-
-Open the `.ipynb` files in Jupyter Notebook or JupyterLab to view and run the analyses. Execute the `.py` files directly with Python.
-
-## Contributing
-
-Feel free to contribute by submitting pull requests or opening issues.
+- Python 3.10+
+- See `requirements.txt` for all dependencies
